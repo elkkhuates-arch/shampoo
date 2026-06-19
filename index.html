@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Shampoo Natural - Proyecto Escolar</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Impact&family=Permanent+Marker&family=Poppins:wght@300;400;600&family=Rubik+Mono+One&family=Special+Elite&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    background: linear-gradient(
+        135deg,
+        #ffd6e8,
+        #e5d4ff,
+        #fff0b8
+    );
+    min-height:100vh;
+    padding:30px;
+    color: #4a4a4a;
+    overflow-x: hidden;
+}
+
+.contenedor{
+    max-width:1200px;
+    margin:auto;
+}
+
+/* ===================================================
+   EFECTO DE LETRAS RECORTADAS DE REVISTA (TITULO)
+   =================================================== */
+.contenedor-titulo {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.letras-recortadas {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+}
+
+.letras-recortadas span {
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 3px 3px 5px rgba(0,0,0,0.2);
+    border: 1px solid rgba(0,0,0,0.1);
+}
+
+.l1 { background-color: #ff5fa2; color: #fff; font-family: 'Impact', sans-serif; transform: rotate(-4deg); }
+.l2 { background-color: #fff; color: #8f5cff; font-family: 'Courier Prime', monospace; transform: rotate(3deg); border-bottom: 4px solid #8f5cff; }
+.l3 { background-color: #ffd166; color: #000; font-family: 'Permanent Marker', cursive; transform: rotate(-2deg); }
+.l4 { background-color: #000; color: #fff; font-family: 'Rubik Mono One', sans-serif; font-size: 2.6rem !important; transform: rotate(5deg); }
+.l5 { background-color: #ff8ec7; color: #fff; font-family: 'Special Elite', cursive; transform: rotate(-5deg); }
+.l6 { background-color: #6d4dcf; color: #fff; font-family: 'Impact', sans-serif; transform: rotate(2deg); }
+.l7 { background-color: #fff; color: #ff5fa2; font-family: 'Permanent Marker', cursive; transform: rotate(-3deg); }
+
+.espacio { width: 20px; display: inline-block; }
+
+.subtitulo{
+    text-align:center;
+    color:#6d4dcf;
+    font-size:1.4rem;
+    font-weight: 600;
+    margin-bottom:40px;
+    letter-spacing: 2px;
+}
+
+/* ===================================================
+   GALERÍA DE PLANTAS E INFORMACIÓN INTERACTIVA
+   =================================================== */
+.galeria-marcos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    margin-bottom: 50px;
+}
+
+.tarjeta-planta-completa {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.marco-planta {
+    background: #fff;
+    padding: 15px 15px 25px 15px;
+    border-radius: 4px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.marco-planta:hover {
+    transform: scale(1.04) rotate(1deg);
+    box-shadow: 0 12px 22px rgba(0,0,0,0.15);
+}
+
+.marco-planta h4 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.5rem;
+    color: #4a4a4a;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.marco-planta img {
+    width: 100%;
+    height: 230px;
+    object-fit: contain;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    pointer-events: none;
+}
+
+/* ===================================================
+   ESTILO GENERAL DE POST-ITS (DESGLOSABLES)
+   =================================================== */
+.postit {
+    background: #fffeb8;
+    color: #333;
+    padding: 20px;
+    position: relative;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.12);
+    border-radius: 2px;
+}
+
+.postit.azul { background: #e3f2fd; }
+.postit.rosa { background: #fce4ec; }
+
+.postit::before {
+    content: "";
+    position: absolute;
+    top: -12px;
+    left: 35%;
+    width: 30%;
+    height: 24px;
+    background: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    transform: rotate(-1deg);
+}
+
+.postit h2, .postit h3 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 1.4rem;
+    text-align: center;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.btn-toggle-postit {
+    display: block;
+    width: 140px;
+    margin: 8px auto;
+    padding: 6px 10px;
+    background: #fbe66d;
+    border: 2px dashed #bba110;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: #665500;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    text-transform: uppercase;
+    transition: transform 0.2s;
+}
+.postit.azul .btn-toggle-postit { background: #90caf9; border: 2px dashed #42a5f5; color: #0d47a1; }
+
+.btn-toggle-postit:hover {
+    transform: scale(1.05);
+}
+
+.postit-contenido {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out;
+}
+
+.postit.activo .postit-contenido {
+    max-height: 1200px; 
+    margin-top: 15px;
+    padding-top: 15px;
+}
+
+.lista-datos-curiosos { list-style: none; }
+.item-curioso { margin-bottom: 12px; font-size: 0.95rem; line-height: 1.4; }
+.item-curioso strong { display: block; color: #c2185b; }
+.postit.azul .item-curioso strong { color: #0288d1; }
+.postit.rosa .item-curioso strong { color: #7b1fa2; }
+
+/* INGREDIENTES Y PREPARACIÓN */
+.grid-principal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 40px;
+    margin-bottom: 50px;
+}
+
+.lista-ingredientes, .lista-pasos { list-style: none; }
+.item-ingrediente { margin-bottom: 15px; }
+.item-ingrediente strong { color: #8f5cff; display: block; }
+.postit.azul .item-ingrediente strong { color: #ff5fa2; }
+.item-paso { margin-bottom: 15px; }
+.item-paso strong { display: block; color: #111; }
+
+/* BENEFICIOS */
+.seccion-beneficios-titulo { text-align: center; color: #6d4dcf; margin-bottom: 25px; font-size: 2rem; }
+.beneficios-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 40px; }
+.beneficio-card { background: #fff; padding: 20px 15px; border-radius: 20px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,.05); cursor: pointer; transition: transform 0.3s ease, background-color 0.3s; }
+.beneficio-card:hover { transform: translateY(-5px); background-color: #fdf5f8; }
+.beneficio-card .icono { font-size: 2.2rem; display: block; margin-bottom: 5px; }
+.beneficio-card h3 { color: #8f5cff; font-size: 1.1rem; }
+.beneficio-card .ver-mas { font-size: 0.75rem; color: #ff5fa2; font-weight: bold; margin-top: 5px; display: block; }
+
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(5px); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 1000; }
+.modal.abierto { opacity: 1; pointer-events: auto; }
+.modal-contenido { background: white; padding: 40px; border-radius: 25px; max-width: 500px; width: 90%; position: relative; text-align: center; box-shadow: 0 15px 30px rgba(0,0,0,0.3); transform: scale(0.7); transition: transform 0.3s ease; border: 4px solid #e5d4ff; }
+.modal.abierto .modal-contenido { transform: scale(1); }
+.btn-cerrar { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; font-weight: bold; color: #aaa; cursor: pointer; transition: color 0.2s; }
+.btn-cerrar:hover { color: #ff5fa2; }
+.modal-contenido .modal-icono { font-size: 3.5rem; display: block; margin-bottom: 10px; }
+.modal-contenido h3 { color: #8f5cff; font-size: 1.8rem; margin-bottom: 15px; }
+.modal-contenido p { font-size: 1.1rem; color: #555; line-height: 1.5; }
+
+/* ===================================================
+   SISTEMA DE MICHIS INTERACTIVO (LADO DERECHO Y CELULAR)
+   =================================================== */
+#contenedor-gato {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 100px;
+    height: 100px;
+    z-index: 2000;
+    cursor: pointer;
+}
+
+.gato-espejo-wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+.burbuja-gato {
+    position: absolute;
+    bottom: 110px;
+    right: -10px;
+    background: #ffffff;
+    border: 3px solid #4a4a4a;
+    border-radius: 15px;
+    padding: 12px;
+    width: 240px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    box-shadow: 4px 4px 0px rgba(0,0,0,0.15);
+    color: #333;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.burbuja-gato::after {
+    content: '';
+    position: absolute;
+    bottom: -12px;
+    right: 25%;
+    border-width: 12px 12px 0;
+    border-style: solid;
+    border-color: #ffffff transparent;
+    display: block;
+    width: 0;
+}
+.burbuja-gato::before {
+    content: '';
+    position: absolute;
+    bottom: -16px;
+    right: 24%;
+    border-width: 13px 13px 0;
+    border-style: solid;
+    border-color: #4a4a4a transparent;
+    display: block;
+    width: 0;
+    z-index: -1;
+}
+
+.img-gato-animado {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+footer { text-align: center; padding: 30px 0; color: #6d4dcf; font-weight: 600; border-top: 2px solid rgba(255,255,255,0.5); }
+
+@media (max-width: 768px) { 
+    .letras-recortadas span { font-size: 1.8rem; padding: 5px 10px; } 
+    .grid-principal { grid-template-columns: 1fr; } 
+    body { padding: 15px; } 
+    
+    /* El gato ahora se adapta en pantallas chicas en vez de borrarse */
+    #contenedor-gato { 
+        width: 80px; 
+        height: 80px; 
+        bottom: 15px; 
+        right: 15px; 
+    }
+    .burbuja-gato {
+        bottom: 90px;
+        right: -5px;
+        width: 200px;
+        font-size: 0.8rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="contenedor">
+
+    <div class="contenedor-titulo">
+        <div class="letras-recortadas">
+            <span class="l1">S</span><span class="l2">h</span><span class="l3">a</span><span class="l4">m</span><span class="l5">p</span><span class="l6">o</span><span class="l7">o</span>
+            <div class="espacio"></div>
+            <span class="l3">N</span><span class="l1">a</span><span class="l5">t</span><span class="l2">u</span><span class="l6">r</span><span class="l4">a</span><span class="l7">l</span>
+        </div>
+    </div>
+    <p class="subtitulo">Fitopreparación Artesanal</p>
+
+    <div id="contenedor-gato" onclick="michiHabla()">
+        <div class="burbuja-gato" id="burbuja">¡Miau! 🐾</div>
+        <div class="gato-espejo-wrapper" id="gato-espejo">
+            <img src="" id="michi-img" class="img-gato-animado" alt="Gatito animado interactivo">
+        </div>
+    </div>
+
+    <div class="galeria-marcos">
+        <div class="tarjeta-planta-completa">
+            <div class="marco-planta" onclick="alternarSeccion('info-sabila')">
+                <h4>Sábila</h4>
+                <img src="https://i.pinimg.com/736x/8f/06/b2/8f06b2f0b1e83ec1b73b56eee318022d.jpg" alt="Dibujo de Sábila Aloe Vera">
+            </div>
+            <div class="postit rosa" id="info-sabila">
+                <h3>💡 Datos sobre la Sábila</h3>
+                <div class="postit-contenido">
+                    <ul class="lista-datos-curiosos">
+                        <li class="item-curioso"><strong>El secreto de Cleopatra:</strong> Las reinas de Egipto, Cleopatra y Nefertiti, usaban el gel de sábila en su rutina diaria para mantener su piel joven y radiante.</li>
+                        <li class="item-curioso"><strong>Planta de la inmortalidad:</strong> Los antiguos egipcios la llamaban así porque puede sobrevivir, crecer y florecer en condiciones extremas sin casi nada de agua.</li>
+                        <li class="item-curioso"><strong>Cierra sus propios poros:</strong> Si cortas una hoja de sábila directamente de la planta, verás que la "herida" se sella sola en poco tiempo para no perder agua. ¡Se cura a sí misma!</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tarjeta-planta-completa">
+            <div class="marco-planta" onclick="alternarSeccion('info-jengibre')">
+                <h4>Jengibre</h4>
+                <img src="https://previews.123rf.com/images/epine/epine1702/epine170200079/72235877-ginger-root-vector-hand-drawn-illustration-root-and-sliced-pieces-artistic-style-colorful-flavor.jpg" alt="Dibujo de Jengibre">
+            </div>
+            <div class="postit" id="info-jengibre">
+                <h3>💡 Datos sobre el Jengibre</h3>
+                <div class="postit-contenido">
+                    <ul class="lista-datos-curiosos">
+                        <li class="item-curioso"><strong>No es una raíz:</strong> Aunque todos le llamamos así, técnicamente es un rizoma, que es un tallo subterráneo que crece de forma horizontal.</li>
+                        <li class="item-curioso"><strong>Moneda de cambio:</strong> En el Imperio Romano era un producto tan lujoso y codiciado que un solo kilo de jengibre valía lo mismo que una oveja entera.</li>
+                        <li class="item-curioso"><strong>Espanta a los insectos:</strong> El olor fuerte y picante del jengibre funciona como un repelente natural en la naturaleza; las plantas lo usan para que las plagas no se las coman.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tarjeta-planta-completa">
+            <div class="marco-planta" onclick="alternarSeccion('info-romero')">
+                <h4>Romero</h4>
+                <img src="https://png.pngtree.com/png-vector/20240812/ourmid/pngtree-rosemary-flower-png-image_13406633.png" alt="Dibujo de Romero">
+            </div>
+            <div class="postit azul" id="info-romero">
+                <h3>💡 Datos sobre el Romero</h3>
+                <div class="postit-contenido">
+                    <ul class="lista-datos-curiosos">
+                        <li class="item-curioso"><strong>El truco de los estudiantes:</strong> En la antigua Grecia, los estudiantes se ponían coronas de romero antes de los exámenes porque se creía que su aroma mejoraba la memoria.</li>
+                        <li class="item-curioso"><strong>Símbolo de fidelidad:</strong> En las bodas de la antigua Europa, los novios llevaban una ramita de romero para prometerse amor eterno y atraer buena suerte.</li>
+                        <li class="item-curioso"><strong>El arbusto de los 20 años:</strong> Es una planta increíblemente resistente; un solo arbusto de romero puede vivir hasta 20 años en el clima adecuado.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid-principal">
+        <div class="postit" id="postit-ingredientes">
+            <h2>🌿 Ingredientes</h2>
+            <button class="btn-toggle-postit" onclick="alternarSeccion('postit-ingredientes')">Ver / Ocultar</button>
+            <div class="postit-contenido">
+                <ul class="lista-ingredientes">
+                    <li class="item-ingrediente"><strong>½ taza de cristal de Sábila:</strong> Hidrata profundamente.</li>
+                    <li class="item-ingrediente"><strong>1 trozo de Jengibre fresco (3-4 cm):</strong> Activa la circulación.</li>
+                    <li class="item-ingrediente"><strong>2 cucharadas de Romero fresco:</strong> Fortalece la raíz.</li>
+                    <li class="item-ingrediente"><strong>1 taza de base de Shampoo Neutro:</strong> Limpieza libre de sulfatos.</li>
+                    <li class="item-ingrediente"><strong>1 taza de Agua purificada:</strong> Para la infusión base.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="postit azul" id="postit-preparacion">
+            <h2>🧪 Preparación</h2>
+            <button class="btn-toggle-postit" onclick="alternarSeccion('postit-preparacion')">Ver / Ocultar</button>
+            <div class="postit-contenido">
+                <ol class="lista-pasos">
+                    <li class="item-paso"><strong>1. Extraer la Sábila:</strong> Corta la hoja, deja escurrir la aloína 15 min, lava bien y saca solo el cristal transparente. Licúalo hasta que quede gel.</li>
+                    <li class="item-paso"><strong>2. Hacer infusión de jengibre y romero:</strong> Hierve 1 taza de agua, agrega el jengibre en rodajas y el romero. Deja hervir 5 min y reposar tapado 15 min más.</li>
+                    <li class="item-paso"><strong>3. Filtrar:</strong> Colar la infusión para quitar todos los residuos sólidos.</li>
+                    <li class="item-paso"><strong>4. Mezclar:</strong> En un recipiente limpio, une la base de shampoo neutro con el gel de sábila y la infusión ya fría. Integra bien con movimientos envolventes.</li>
+                    <li class="item-paso"><strong>5. Opcional:</strong> Agrega la vitamina E o aceite esencial para conservar y potenciar.</li>
+                    <li class="item-paso"><strong>6. Envasar:</strong> En una botella limpia con tapa, de preferencia ámbar. Agitar antes de cada uso. Guardar en lugar fresco.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="seccion-beneficios-titulo">✨ Propiedades y Beneficios</h2>
+    <div class="beneficios-grid">
+        <div class="beneficio-card" onclick="abrirModal('Sábila', '💧', 'Hidrata a profundidad el cabello y calma el cuero cabelludo irritado.')">
+            <span class="icono">💧</span><h3>Sábila</h3><span class="ver-mas">Ver más info</span>
+        </div>
+        <div class="beneficio-card" onclick="abrirModal('Jengibre', '🌱', 'Estimula la circulación del folículo, promoviendo el crecimiento sano.')">
+            <span class="icono">🌱</span><h3>Jengibre</h3><span class="ver-mas">Ver más info</span>
+        </div>
+        <div class="beneficio-card" onclick="abrirModal('Romero', '🌿', 'Se encarga de fortalecer la raíz y previene la caída prematura.')">
+            <span class="icono">🌿</span><h3>Romero</h3><span class="ver-mas">Ver más info</span>
+        </div>
+        <div class="beneficio-card" onclick="abrirModal('Vitamina E', '💊', 'Nutre e hidrata las puntas secas de tu cabello.')">
+            <span class="icono">💊</span><h3>Vitamina E</h3><span class="ver-mas">Ver más info</span>
+        </div>
+        <div class="beneficio-card" onclick="abrirModal('Anticaspa', '✨', 'Limpia profundamente reduciendo los molestos rastros de descamación.')">
+            <span class="icono">✨</span><h3>Anticaspa</h3><span class="ver-mas">Ver más info</span>
+        </div>
+    </div>
+
+    <div id="miModal" class="modal" onclick="cerrarModalAfuera(event)">
+        <div class="modal-contenido">
+            <span class="btn-cerrar" onclick="cerrarModal()">&times;</span>
+            <span id="modalIcono" class="modal-icono">💧</span>
+            <h3 id="modalTitulo">Beneficio</h3>
+            <p id="modalTexto">Descripción.</p>
+        </div>
+    </div>
+
+    <footer>Proyecto Escolar • Shampoo Natural Artesanal, hecho por Juan 2.-1</footer>
+</div>
+
+<script>
+function alternarSeccion(idPostit) {
+    document.getElementById(idPostit).classList.toggle('activo');
+}
+
+function abrirModal(titulo, icono, texto) {
+    document.getElementById('modalTitulo').innerText = titulo;
+    document.getElementById('modalIcono').innerText = icono;
+    document.getElementById('modalTexto').innerText = texto;
+    document.getElementById('miModal').classList.add('abierto');
+}
+function cerrarModal() { document.getElementById('miModal').classList.remove('abierto'); }
+function cerrarModalAfuera(e) { if (e.target.classList.contains('modal')) cerrarModal(); }
+
+/* ===================================================
+   NUEVA LÓGICA DE ANIMACIÓN EN BASE A 6 FOTOGRAMAS
+   =================================================== */
+const michiImg = document.getElementById('michi-img');
+const burbuja = document.getElementById('burbuja');
+
+// REEMPLAZA CON LOS LINKS QUE SUBAS A INTERNET:
+// 3 Fotogramas para la animación continua de la Cola moviéndose
+const imgCola1 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/Captura_de_pantalla_2026-06-19_100554-removebg-preview.png?raw=true";
+const imgCola2 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/Captura_de_pantalla_2026-06-19_100605-removebg-preview.png?raw=true";
+const imgCola3 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/Captura_de_pantalla_2026-06-19_100610-removebg-preview.png?raw=true";
+
+// 3 Fotogramas para la animación interactiva de Lamerse la pata
+const imgLamer1 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/gato-lame1.png-removebg-preview.png?raw=true";
+const imgLamer2 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/gato-lame2.png-removebg-preview.png?raw=true";
+const imgLamer3 = "https://github.com/elkkhuates-arch/shampoo-natural/blob/main/gato-lame3.png-removebg-preview.png?raw=true";
+
+const frasesMichi = [
+    "🐾 ¡Miau! ¿Sabías que Cleopatra usaba gel de sábila diario para mantenerse radiante?",
+    "🐾 ¡Prrr! Los antiguos egipcios llamaban a la Sábila 'la planta de la inmortalidad'.",
+    "🐾 ¡Miau! Si cortas una hoja de sábila, ¡se cura y sella sus poros ella solita!",
+    "🐾 ¡Miau! El Jengibre no es una raíz, técnicamente es un tallo llamado rizoma.",
+    "🐾 ¡Prrr! En el Imperio Romano, ¡un kilo de jengibre valía lo mismo que una oveja entera!",
+    "🐾 ¡Miau! Las plantas de jengibre usan su olor picante como repelente contra plagas.",
+    "🐾 ¡Miau! En la antigua Grecia los estudiantes usaban coronas de romero para mejorar su memoria.",
+    "🐾 ¡Prrr! El Romero es tan resistente que un arbusto puede vivir hasta 20 años.",
+    "🐾 ¡Miau! El Romero aporta un brillo natural único y fortalece tu raíz capilar.",
+    "🐾 ¡Prrr! La combinación de jengibre y romero detiene de forma efectiva la caída del cabello.",
+    "🐾 ¡Miau! Al usar shampoo neutro evitas los sulfatos agresivos que resecan tu cuero cabelludo."
+];
+
+let burbujaBloqueada = false;
+let intervaloAnimacion = null;
+
+// EFECTO DE SONIDO POR DEFECTO
+function reproducirMaullido() {
+    try {
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContext) return;
+        const ctx = new AudioContext();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle'; 
+        osc.frequency.setValueAtTime(400, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(750, ctx.currentTime + 0.12);
+        osc.frequency.exponentialRampToValueAtTime(550, ctx.currentTime + 0.35);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.42);
+    } catch(e) {
+        console.log("Audio interactivo listo.");
+    }
+}
+
+// ANIMACIÓN 1: El gato mueve su cola infinitamente (Por defecto)
+function bucleMoverCola() {
+    clearInterval(intervaloAnimacion);
+    let pasoCola = 0;
+    
+    intervaloAnimacion = setInterval(() => {
+        if (pasoCola === 0) {
+            michiImg.src = imgCola1;
+        } else if (pasoCola === 1) {
+            michiImg.src = imgCola2;
+        } else {
+            michiImg.src = imgCola3;
+        }
+        pasoCola = (pasoCola + 1) % 3;
+    }, 400); // velocidad del movimiento de cola
+}
+
+// ANIMACIÓN 2: El gato se lame la pata mientras habla
+function bucleLamerPata() {
+    clearInterval(intervaloAnimacion);
+    let pasoLamer = 0;
+    
+    intervaloAnimacion = setInterval(() => {
+        if (pasoLamer === 0) {
+            michiImg.src = imgLamer1;
+        } else if (pasoLamer === 1) {
+            michiImg.src = imgLamer2;
+        } else {
+            michiImg.src = imgLamer3;
+        }
+        pasoLamer = (pasoLamer + 1) % 3;
+    }, 400); // velocidad de lamido
+}
+
+// INTERACCIÓN PRINCIPAL (AL DARLE CLIC)
+function michiHabla() {
+    if (burbujaBloqueada) return;
+    burbujaBloqueada = true;
+
+    // Cambia de inmediato a la animación de lamer la pata y lanza sonido/texto
+    bucleLamerPata();
+    reproducirMaullido();
+
+    const fraseElegida = frasesMichi[Math.floor(Math.random() * frasesMichi.length)];
+    burbuja.innerText = fraseElegida;
+
+    burbuja.style.display = 'block';
+    setTimeout(() => { burbuja.style.opacity = '1'; }, 50);
+
+    // Mantiene la acción por 5 segundos enteros antes de volver a la cola
+    setTimeout(() => {
+        burbuja.style.opacity = '0';
+        setTimeout(() => {
+            burbuja.style.display = 'none';
+            burbujaBloqueada = false;
+            // Regresa a mover la colita por siempre
+            bucleMoverCola(); 
+        }, 300);
+    }, 5000);
+}
+
+// Inicialización automática al cargar el sitio
+setTimeout(() => { bucleMoverCola(); }, 300);
+</script>
+
+</body>
+</html>
